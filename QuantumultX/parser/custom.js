@@ -37,7 +37,7 @@ function shadowrocketToQuantumultX(line) {
         "DOMAIN-WILDCARD": "HOST-WILDCARD",
         "DOMAIN-KEYWORD": "HOST-KEYWORD",
         "IP-CIDR": "IP-CIDR",
-        "IP-CIDR6": "IP-CIDR6"
+        "IP-CIDR6": "IP6-CIDR"
     };
 
     // 2. 按逗号切分并清理空格
@@ -48,7 +48,7 @@ function shadowrocketToQuantumultX(line) {
     let policy = parts[2];
 
     // 3. 转换类型字段：如果在映射表里就替换
-    if (typeMap[type]) {
+    if (typeMap[type.toUpperCase()]) {
         type = typeMap[type];
     } else {
         return "";
