@@ -34,6 +34,7 @@ function shadowrocketToQuantumultX(line) {
     const typeMap = {
         "DOMAIN-SUFFIX": "HOST-SUFFIX",
         "DOMAIN": "HOST",
+        "DOMAIN-WILDCARD": "HOST-WILDCARD",
         "DOMAIN-KEYWORD": "HOST-KEYWORD",
         "IP-CIDR": "IP-CIDR",
         "IP-CIDR6": "IP-CIDR6"
@@ -50,7 +51,7 @@ function shadowrocketToQuantumultX(line) {
     if (typeMap[type]) {
         type = typeMap[type];
     } else {
-        return line;
+        return "";
     }
 
     // 4. 补全策略：如果没有策略字段，则默认为 PROXY
