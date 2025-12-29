@@ -1,11 +1,12 @@
-const content = $response.body;
+/**
+ * Quantumult X 资源解析器 - 独立 if 判断版
+ */
+
+const content = $resource.content;
 
 function main() {
     if (!content) {
-        $done({ 
-            body: "", 
-            headers: { 'content-type': 'text/plain; charset=utf-8' }
-        });
+        $done({ error: "未能读取到内容" });
         return;
     }
 
@@ -16,42 +17,31 @@ function main() {
 
         // 1. 过滤空行和注释
         if (line === "" || line.startsWith("#") || line.startsWith(";")) {
-            return item; // 返回原始行，保留缩进
+            return line; 
         }
 
-        // 2. 精确匹配和替换（按优先级排序）
+        // 2. 独立 if 判断开头 (i 忽略大小写)
         
-        // 优先匹配 DOMAIN-SUFFIX（完整匹配）
-        if (/^DOMAIN-SUFFIX,/i.test(line)) {
-            return line.replace(/^DOMAIN-SUFFIX,/i, 'HOST-SUFFIX,');
+        // 匹配 DOMAIN-SUFFIX 开头
+        if (/^DOMAIN-SUFFIX/i.test(line)) {
+            line = line.replace(/DOMAIN-SUFFIX/i, "HOST-SUFFIX");
         } 
         
-        // 匹配 DOMAIN-KEYWORD（完整匹配）
-        if (/^DOMAIN-KEYWORD,/i.test(line)) {
-            return line.replace(/^DOMAIN-KEYWORD,/i, 'HOST-KEYWORD,');
+        // 匹配 DOMAIN-KEYWORD 开头
+        if (/^DOMAIN-KEYWORD/i.test(line)) {
+            line = line.replace(/DOMAIN-KEYWORD/i, "HOST-KEYWORD");
         } 
         
-        // 匹配 DOMAIN（仅限逗号结尾的情况，避免与 SUFFIX/KEYWORD 冲突）
-        if (/^DOMAIN,/i.test(line)) {
-            return line.replace(/^DOMAIN,/i, 'HOST,');
-        }
-        
-        // 如果是单独的 DOMAIN 规则（无逗号，较少见）
-        if (/^DOMAIN$/i.test(line)) {
-            return line.replace(/^DOMAIN$/i, 'HOST');
+        // 匹配 DOMAIN 开头 (增加边界判断防止误伤 SUFFIX)
+        if (/^DOMAIN,/i.test(line) || /^DOMAIN$/i.test(line)) {
+            line = line.replace(/DOMAIN/i, "HOST");
         }
 
-        // 3. 其他情况保持原样
-        return item; // 返回原始行，保留格式
+        // 返回处理后的 line
+        return line;
     });
 
-    $done({
-        body: processedLines.join("\n"),
-        headers: {
-            'content-type': 'text/plain; charset=utf-8',
-            'cache-control': 'max-age=3600'
-        }
-    });
+    $done({ content: processedLines.join("\n") });
 }
 
 main();
