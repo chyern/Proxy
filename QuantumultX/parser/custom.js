@@ -1,61 +1,57 @@
-/**
- * Quantumult X 资源解析器 - 终极修复版
- */
+const content = $response.body;
 
-async function main() {
-    // 1. 优先获取 $resource.content，如果没有则通过 $resource.url 发起请求
-    let rawContent = typeof $resource !== "undefined" ? $resource.content : null;
-    let url = typeof $resource !== "undefined" ? $resource.url : null;
-
-    if (!rawContent && url) {
-        // 如果 content 为空，尝试手动拉取
-        const response = await $.get(url);
-        rawContent = response.body;
-    }
-
-    if (!rawContent) {
-        $done({ error: "无法获取资源内容" });
+function main() {
+    if (!content) {
+        $done({ 
+            body: "", 
+            headers: { 'content-type': 'text/plain; charset=utf-8' }
+        });
         return;
     }
 
-    // 2. 逻辑处理
-    let lines = rawContent.split(/\r?\n/);
+    let lines = content.split(/\r?\n/);
     
     let processedLines = lines.map(item => {
         let line = item.trim();
 
-        // 过滤空行和注释
+        // 1. 过滤空行和注释
         if (line === "" || line.startsWith("#") || line.startsWith(";")) {
-            return line; 
+            return item; // 返回原始行，保留缩进
         }
 
-        // 独立 if 判断开头
-        if (/^DOMAIN-SUFFIX/i.test(line)) {
-            line = line.replace(/DOMAIN-SUFFIX/i, "HOST-SUFFIX");
+        // 2. 精确匹配和替换（按优先级排序）
+        
+        // 优先匹配 DOMAIN-SUFFIX（完整匹配）
+        if (/^DOMAIN-SUFFIX,/i.test(line)) {
+            return line.replace(/^DOMAIN-SUFFIX,/i, 'HOST-SUFFIX,');
         } 
         
-        if (/^DOMAIN-KEYWORD/i.test(line)) {
-            line = line.replace(/DOMAIN-KEYWORD/i, "HOST-KEYWORD");
+        // 匹配 DOMAIN-KEYWORD（完整匹配）
+        if (/^DOMAIN-KEYWORD,/i.test(line)) {
+            return line.replace(/^DOMAIN-KEYWORD,/i, 'HOST-KEYWORD,');
         } 
         
-        if (/^DOMAIN,/i.test(line) || /^DOMAIN$/i.test(line)) {
-            line = line.replace(/DOMAIN/i, "HOST");
+        // 匹配 DOMAIN（仅限逗号结尾的情况，避免与 SUFFIX/KEYWORD 冲突）
+        if (/^DOMAIN,/i.test(line)) {
+            return line.replace(/^DOMAIN,/i, 'HOST,');
+        }
+        
+        // 如果是单独的 DOMAIN 规则（无逗号，较少见）
+        if (/^DOMAIN$/i.test(line)) {
+            return line.replace(/^DOMAIN$/i, 'HOST');
         }
 
-        return line;
+        // 3. 其他情况保持原样
+        return item; // 返回原始行，保留格式
     });
 
-    // 3. 最终返回：必须是一个包含 content 属性的对象
-    $done({ content: processedLines.join("\n") });
+    $done({
+        body: processedLines.join("\n"),
+        headers: {
+            'content-type': 'text/plain; charset=utf-8',
+            'cache-control': 'max-age=3600'
+        }
+    });
 }
-
-// 简单的辅助函数，确保支持异步请求
-const $ = {
-    get: (url) => {
-        return new Promise((resolve, reject) => {
-            $task.fetch({ url }).then(response => resolve(response), reason => reject(reason));
-        });
-    }
-};
 
 main();
