@@ -1,8 +1,10 @@
+// 检查资源内容是否存在
 const content = $resource.content;
 
 function main() {
-    if (!content) {
-        $done({ error: "未能读取到内容" });
+    // 容错处理：如果内容为空，返回空字符串而不是报错
+    if (!content || content.trim() === "") {
+        $done({ content: "" });
         return;
     }
 
@@ -17,27 +19,25 @@ function main() {
         }
 
         // 2. 独立 if 判断开头 (i 忽略大小写)
-        
-        // 匹配 DOMAIN-SUFFIX 开头
         if (/^DOMAIN-SUFFIX/i.test(line)) {
             line = line.replace(/DOMAIN-SUFFIX/i, "HOST-SUFFIX");
         } 
         
-        // 匹配 DOMAIN-KEYWORD 开头
         if (/^DOMAIN-KEYWORD/i.test(line)) {
             line = line.replace(/DOMAIN-KEYWORD/i, "HOST-KEYWORD");
         } 
         
-        // 匹配 DOMAIN 开头 (增加边界判断防止误伤 SUFFIX)
         if (/^DOMAIN,/i.test(line) || /^DOMAIN$/i.test(line)) {
             line = line.replace(/DOMAIN/i, "HOST");
         }
 
-        // 返回处理后的 line
         return line;
     });
 
-    $done({ content: processedLines.join("\n") });
+    // 关键点：确保使用 $done 返回一个包含 content 属性的对象
+    // 并且使用 .filter(Boolean) 确保没有 undefined 行
+    let finalContent = processedLines.filter(l => typeof l === 'string').join("\n");
+    $done({ content: finalContent });
 }
 
 main();
