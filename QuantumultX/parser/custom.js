@@ -1,5 +1,4 @@
 const content = $resource.content;
-const url = $resource.url;
 
 function main() {
     if (!content) {
@@ -7,33 +6,38 @@ function main() {
         return;
     }
 
-    // 按行切割
     let lines = content.split(/\r?\n/);
-    let result = lines.map(line => {
-        let trimLine = line.trim();
+    
+    let processedLines = lines.map(item => {
+        let line = item.trim();
+
+        // 1. 过滤空行和注释
+        if (line === "" || line.startsWith("#") || line.startsWith(";")) {
+            return item; 
+        }
+
+        // 2. 独立 if 判断开头 (i 忽略大小写)
         
-        // 1. 忽略注释行和空行
-        if (trimLine === "" || trimLine.startsWith("#") || trimLine.startsWith(";")) {
-            return trimLine;
+        // 匹配 DOMAIN-SUFFIX 开头
+        if (/^DOMAIN-SUFFIX/i.test(line)) {
+            item = item.replace(/DOMAIN-SUFFIX/i, "HOST-SUFFIX");
+        } 
+        
+        // 匹配 DOMAIN-KEYWORD 开头
+        if (/^DOMAIN-KEYWORD/i.test(line)) {
+            item = item.replace(/DOMAIN-KEYWORD/i, "HOST-KEYWORD");
+        } 
+        
+        // 匹配 DOMAIN 开头
+        // 注意：为避免误匹配 DOMAIN-SUFFIX，这里正则加了逗号边界或行尾判断
+        if (/^DOMAIN,/i.test(line) || /^DOMAIN$/i.test(line)) {
+            item = item.replace(/DOMAIN/i, "HOST");
         }
 
-        // 2. 转换规则逻辑
-        // 小火箭: DOMAIN-SUFFIX,example.com,REJECT
-        // 圈X: DOMAIN-SUFFIX,example.com,REJECT
-        // 核心是确保去除可能存在的 Proxy/DIRECT 标签，并统一为 REJECT
-        let parts = trimLine.split(",");
-        if (parts.length >= 2) {
-            let type = parts[0].trim().toUpperCase();
-            let val = parts[1].trim();
-            
-            // 针对黑名单，强制将第三参数设为 REJECT
-            return `${type},${val},REJECT`;
-        }
+        return item;
+    });
 
-        return trimLine;
-    }).join("\n");
-
-    $done({ content: result });
+    $done({ content: processedLines.join("\n") });
 }
 
 main();
