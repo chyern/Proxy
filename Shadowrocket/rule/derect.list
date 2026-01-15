@@ -1,1 +1,12 @@
-DOMAIN-SUFFIX,zwbqg.com
+#Bank
+DOMAIN-SUFFIX,hsbc.com.hk
+DOMAIN-SUFFIX,bochk.com
+
+#Apple
+DOMAIN-SUFFIX,apple.com
+DOMAIN-SUFFIX,apple.com.cn
+DOMAIN-SUFFIX,icloud.com
+DOMAIN-SUFFIX,icloud.com.cn
+
+#CN
+GEOIP,CN
