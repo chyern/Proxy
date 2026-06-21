@@ -14,7 +14,7 @@ DOMAIN-SUFFIX,qnap.com
 
 # LinuxDO
 DOMAIN-SUFFIX,linuxdo.org
-DOMAIN-SUFFIX,liunx.do
+DOMAIN-SUFFIX,linux.do
 
 #CN
 GEOIP,CN
