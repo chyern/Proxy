@@ -13,8 +13,8 @@ DOMAIN-SUFFIX,qnap.com.cn
 DOMAIN-SUFFIX,qnap.com
 
 # LinuxDO
-DOMAIN-SUFFIX,linuxdo.org
-DOMAIN-SUFFIX,linux.do
+# DOMAIN-SUFFIX,linuxdo.org
+# DOMAIN-SUFFIX,linux.do
 
 #CN
 GEOIP,CN
