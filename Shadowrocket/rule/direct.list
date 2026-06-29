@@ -17,5 +17,8 @@ DOMAIN-SUFFIX,mycloudnas.com
 # DOMAIN-SUFFIX,linuxdo.org
 # DOMAIN-SUFFIX,linux.do
 
+# AI中转站
+DOMAIN-SUFFIX,rawchat.cn
+
 #CN
 GEOIP,CN
