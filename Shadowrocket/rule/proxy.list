@@ -15,6 +15,9 @@ DOMAIN-SUFFIX,youtube.com
 #Google
 DOMAIN-SUFFIX,google.com
 
+#NVIDIA
+DOMAIN-SUFFIX,nvidia.com
+
 #GitHub
 DOMAIN-SUFFIX,github.com
 DOMAIN-SUFFIX,raw.githubusercontent.com
