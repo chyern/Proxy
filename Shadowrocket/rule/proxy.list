@@ -1,7 +1,10 @@
-#小说
+# 小说
 DOMAIN-SUFFIX,zwbqg.com
 
-#Coin
+# AI中转站
+DOMAIN-SUFFIX,anyrouter.top
+
+# Coin
 DOMAIN-KEYWORD,binance
 DOMAIN-SUFFIX,appsflayer.com
 DOMAIN-SUFFIX,bnappzh.co
@@ -11,14 +14,14 @@ DOMAIN-SUFFIX,bntrace.com
 DOMAIN-SUFFIX,saasexch.com
 DOMAIN-SUFFIX,saasexch.cc
 
-#Docker
+# Docker
 DOMAIN-KEYWORD,docker
 DOMAIN,d1q6f0aelx0por.cloudfront.net
 DOMAIN,d2wy8f7a9ursnm.cloudfront.net
 DOMAIN,d36jcksde1wxzq.cloudfront.net
 DOMAIN-SUFFIX,compose-spec.io
 
-#YouTube
+# YouTube
 DOMAIN-KEYWORD,youtube
 DOMAIN-SUFFIX,ggpht.com
 DOMAIN-SUFFIX,youtu.be
@@ -26,7 +29,7 @@ DOMAIN-SUFFIX,ytimg.com
 IP-ASN,36040,no-resolve
 IP-ASN,43515,no-resolve
 
-#Google
+# Google
 DOMAIN-KEYWORD,google
 DOMAIN-KEYWORD,gstatic
 DOMAIN-SUFFIX,1e100.net
@@ -42,7 +45,7 @@ DOMAIN-SUFFIX,withgoogle.com
 IP-ASN,15169,no-resolve
 IP-ASN,19527,no-resolve
 
-#OpenAI
+# OpenAI
 DOMAIN-KEYWORD,openai
 DOMAIN-KEYWORD,chatgpt
 DOMAIN-KEYWORD,oaistatic
@@ -68,7 +71,7 @@ DOMAIN-SUFFIX,workos.com
 DOMAIN-SUFFIX,workoscdn.com
 IP-ASN,401518,no-resolve
 
-#NVIDIA
+# NVIDIA
 DOMAIN-KEYWORD,geforce
 DOMAIN-KEYWORD,gputechconf
 DOMAIN-KEYWORD,nvidia
@@ -77,7 +80,7 @@ IP-ASN,11414,no-resolve
 IP-ASN,20347,no-resolve
 IP-ASN,50889,no-resolve
 
-#GitHub
+# GitHub
 DOMAIN-KEYWORD,github
 DOMAIN-SUFFIX,dependabot.com
 DOMAIN-SUFFIX,ghcr.io
@@ -88,11 +91,11 @@ DOMAIN-SUFFIX,npmjs.org
 DOMAIN-SUFFIX,repo.new
 IP-ASN,36459,no-resolve
 
-#Poe
+# Poe
 DOMAIN-SUFFIX,poe.com
 DOMAIN-SUFFIX,poecdn.net
 
-#Telegram
+# Telegram
 DOMAIN-KEYWORD,nicegram
 DOMAIN-KEYWORD,telegram
 DOMAIN-SUFFIX,comments.app
