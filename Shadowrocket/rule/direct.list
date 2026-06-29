@@ -11,6 +11,7 @@ DOMAIN-SUFFIX,icloud.com.cn
 # QNAP
 DOMAIN-SUFFIX,qnap.com.cn
 DOMAIN-SUFFIX,qnap.com
+DOMAIN-SUFFIX,mycloudnas.com
 
 # LinuxDO
 # DOMAIN-SUFFIX,linuxdo.org
